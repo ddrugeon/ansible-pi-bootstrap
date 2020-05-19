@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#
+# Custom files
+#
+.DS_Store
+fake_user_ssh_rsa*

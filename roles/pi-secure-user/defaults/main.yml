@@ -1,0 +1,23 @@
+---
+pi_secure_user_default_shell: "/bin/bash"
+pi_secure_user_custom_pi_password: "raspberry"
+pi_secure_user_default_admin_groups:
+  - adm
+  - dialout
+  - cdrom
+  - sudo
+  - audio
+  - video
+  - plugdev
+  - games
+  - users
+  - input
+  - netdev
+  - gpio
+  - i2c
+  - spi
+pi_secure_user_alternate_users: []
+# - username: "apple"
+#   fullname: "Admin user apple"
+#   shell: "/bin/bash"
+#   password: "password"
