@@ -21,3 +21,4 @@ pi_secure_user_alternate_users: []
 #   fullname: "Admin user apple"
 #   shell: "/bin/bash"
 #   password: "password"
+#   public_key: "path to public key"

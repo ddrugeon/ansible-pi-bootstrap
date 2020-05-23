@@ -11,6 +11,12 @@
     groups: "{{ pi_secure_user_default_admin_groups }}"
     append: yes
   with_items: "{{ pi_secure_user_alternate_users }}"
+- name:  "pi-secure-user | Deploy user's SSH key"
+  become: yes
+  authorized_key:
+    user: "{{ item.username }}"
+    key: "{{ lookup('file', '{{ item.public_key }}') }}"
+  with_items: "{{ pi_secure_user_alternate_users }}"
 - name: "pi-secure-user | Change default password for user 'pi'"
   user:
     name: "pi"

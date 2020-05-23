@@ -10,5 +10,7 @@
             fullname: "Admin user apple"
             shell: "/bin/sh"
             password: "password"
+            public_key: "{{ playbook_dir }}/fake_user_ssh_rsa.pub"
           - username: "orange"
             password: "orange"
+            public_key: "{{ playbook_dir }}/fake_user_ssh_rsa.pub"
