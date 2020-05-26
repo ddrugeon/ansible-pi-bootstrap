@@ -36,9 +36,7 @@ List of users to create or update, default is []. Each item in this list should 
 - name: Username of new user (required)
 - fullname: Full name for the new user (optional)
 - shell: Default shell for this user; `pi_secure_user_default_shell` will be used if this key is omitted.
-- pubkey: The public keys to associate with the given user.
-- pubkey_options: Additional options to pass to the authorized_key module (optional).
-- exclusive: Boolean indicating if all other public keys should be removed (optional)
+- public_key: "path to public key"
 
 Dependencies
 ------------
@@ -56,10 +54,8 @@ Example Playbook
     pi_secure_user_alternate_users:
       - username: "orange"
         fullname: "User Orange"
-        pubkey:
-          - "ssh-rsa ..."
-          - "ssh-rsa ..."
-    pi_secure_user_alternate_user_password: "{{ vaulted_user_password }}"
+        public_key: "{{ playbook_dir }}/orange_key.pub"
+        password:  "{{ vaulted_orange_password }}"
   roles:
     - role: pi-secure-user
 ```
