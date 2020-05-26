@@ -53,6 +53,15 @@
         group: "pi"
         groups: "adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,gpio,i2c,spi"
         append: yes
+    - name: "Prepare molecule | Add 010_pi-nopasswd sudoers configuration files"
+      become: yes
+      copy:
+        dest: "/etc/sudoers.d/010_pi-nopasswd"
+        group: "root"
+        owner: "root"
+        mode: 0440
+        content: |
+          pi ALL=(ALL) NOPASSWD: ALL 
     - name: "Prepare molecule | Generate fake ssh keys"
       delegate_to: localhost
       openssh_keypair:
@@ -60,4 +69,3 @@
         path: "{{ playbook_dir }}/fake_user_ssh_rsa"
         size: 4096
         type: "rsa"
-

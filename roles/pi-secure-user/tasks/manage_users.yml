@@ -20,11 +20,3 @@
     key: "{{ lookup('file', '{{ item.public_key }}') }}"
   with_items: "{{ pi_secure_user_alternate_users }}"
   tags: admin_users
-- name: "pi-secure-user | Change default password for user 'pi'"
-  user:
-    name: "pi"
-    password: "{{ pi_secure_user_custom_pi_password }}"
-    state: "present"
-    update_password: always
-  tags:
-    - pi_user
