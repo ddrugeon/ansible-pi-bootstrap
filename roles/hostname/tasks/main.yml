@@ -1,0 +1,15 @@
+---
+# Set the hostname
+- name: "hostname | Set the hostname"
+  become: yes
+  hostname:
+    name: "{{ hostname_value }}"
+
+# Set the hostname in /etc/hosts too
+- name: "hostname | add entry in /etc/hosts"
+  become: yes
+  lineinfile:
+    path: "/etc/hosts"
+    regex: "127.0.1.1.*raspberrypi"
+    line: "127.0.1.1\t{{ hostname_value }}"
+    state: present
