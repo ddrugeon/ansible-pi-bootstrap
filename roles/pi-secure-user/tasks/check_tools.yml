@@ -1,0 +1,13 @@
+---
+- name: "pi-secure-user | Check ansible version"
+  become: false
+  assert:
+    that:
+      - "{{ ansible_version.string is version_compare('2.8', '>=') }}"
+    msg: "Ansible 2.8 or above is required"
+- name: "pi-secure-user | Check if pi_secure_user_custom_pi_password is set"
+  assert:
+    that:
+      - "false"
+    msg: "pi_secure_user_custom_pi_password value must be set and not empty"
+  when: (pi_secure_user_custom_pi_password is undefined) or (pi_secure_user_custom_pi_password | trim == '')

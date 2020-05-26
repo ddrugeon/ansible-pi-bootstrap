@@ -1,0 +1,15 @@
+---
+- name: Prepare
+  hosts: debian-buster-container
+  gather_facts: false
+  vars:
+    fake_ssh_keys:
+      - "{{ playbook_dir }}/fake_user_ssh_rsa"
+      - "{{ playbook_dir }}/fake_user_ssh_rsa.pub"
+  tasks:
+    - name: "Destroy molecule | Delete fake ssh keys (private and public)"
+      delegate_to: localhost
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items: "{{ fake_ssh_keys }}"

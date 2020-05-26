@@ -1,0 +1,22 @@
+---
+- name: "pi-secure-user | Add alternate users"
+  user:
+    name: "{{ item.username | mandatory }}"
+    comment: "{{ item.fullname | default(omit) }}"
+    shell: "{{ item.shell | default(pi_secure_user_default_shell) }}"
+    password: "{{ item.password | mandatory }}"
+    group: "pi"
+    state: "present"
+    update_password: on_create
+    groups: "{{ pi_secure_user_default_admin_groups }}"
+    append: yes
+  with_items: "{{ pi_secure_user_alternate_users }}"
+  tags:
+    - admin_users
+- name:  "pi-secure-user | Deploy user's SSH key"
+  become: yes
+  authorized_key:
+    user: "{{ item.username }}"
+    key: "{{ lookup('file', '{{ item.public_key }}') }}"
+  with_items: "{{ pi_secure_user_alternate_users }}"
+  tags: admin_users
