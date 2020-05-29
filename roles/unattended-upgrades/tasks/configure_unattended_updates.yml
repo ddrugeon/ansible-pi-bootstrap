@@ -1,0 +1,10 @@
+---
+- name: "Configure unattended-upgrades | Copy 50unattended-upgrades file in /etc/apt/apt.conf.d/"
+  copy:
+    src: "etc/apt/apt.conf.d/50unattended-upgrades"
+    dest: "/etc/apt/apt.conf.d/50unattended-upgrades"
+
+- name: "Configure unattended-upgrades | Copy 20auto-upgrades file in /etc/apt/apt.conf.d/"
+  copy:
+    src: "etc/apt/apt.conf.d/20auto-upgrades"
+    dest: "/etc/apt/apt.conf.d/20auto-upgrades"
