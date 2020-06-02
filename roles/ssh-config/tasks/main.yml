@@ -1,0 +1,7 @@
+---
+# tasks file for ssh-config
+- name: "ssh-config | Update SSH configuration to be more secure."
+  template:
+      dest: "/etc/ssh/sshd_config"
+      src: "etc/ssh/sshd_config"
+  notify: restart ssh

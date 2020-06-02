@@ -1,0 +1,91 @@
+---
+- name: Prepare
+  hosts: debian-buster-container
+  gather_facts: false
+  tasks:
+    - name: "Prepare molecule | install openssh"
+      become: true
+      apt:
+        update_cache: yes
+        cache_valid_time: 86400 #One day
+        name: "openssh-server"
+        state: present
+    - name: "Prepare molecule | Hash password for pi user"
+      local_action: "command openssl passwd -salt 'salt' -1 'raspberry'"
+      register: pi_user_password_hash
+    - name: "Prepare molecule | Add group input"
+      group:
+        name: "input"
+        gid: 1050
+        state: present
+        system: yes
+    - name: "Prepare molecule | Add group netdev"
+      group:
+        name: "netdev"
+        gid: 109
+        state: present
+        system: yes
+    - name: "Prepare molecule | Add group gpio"
+      group:
+        name: "gpio"
+        gid: 997
+        state: present
+        system: yes
+    - name: "Prepare molecule | Add group i2c"
+      group:
+        name: "i2c"
+        gid: 1001
+        state: present
+        system: yes
+    - name: "Prepare molecule | Add group spi"
+      group:
+        name: "spi"
+        gid: 1002
+        state: present
+        system: yes
+    - name: "Prepare molecule | Add group pi"
+      group:
+        name: "pi"
+        gid: 1000
+        state: present
+    - name: "Prepare molecule | Add user pi with default password"
+      user:
+        name: "pi"
+        comment: "Default user in a raspberry pi"
+        password: "{{ pi_user_password_hash.stdout }} "
+        shell: "/bin/bash"
+        uid: 1000
+        state: "present"
+        update_password: on_create
+        group: "pi"
+        groups: "adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,gpio,i2c,spi"
+        append: yes
+    - name: "Prepare molecule | Add user admin with default password"
+      user:
+        name: "admin"
+        comment: "Admin user"
+        password: "{{ pi_user_password_hash.stdout }} "
+        shell: "/bin/bash"
+        uid: 1001
+        state: "present"
+        update_password: on_create
+        group: "pi"
+        groups: "adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,gpio,i2c,spi"
+        append: yes
+    - name: "Prepare molecule | Add 010_pi-nopasswd sudoers configuration files"
+      become: yes
+      copy:
+        dest: "/etc/sudoers.d/010_pi-nopasswd"
+        group: "root"
+        owner: "root"
+        mode: 0440
+        content: |
+          pi ALL=(ALL) NOPASSWD: ALL
+          admin ALL=(ALL) NOPASSWD: ALL
+    - name: "Prepare molecule | Generate fake ssh keys"
+      delegate_to: localhost
+      openssh_keypair:
+        comment: "Fake SSH Key only for testing purpose"
+        path: "{{ playbook_dir }}/fake_user_ssh_rsa"
+        size: 4096
+        type: "rsa"

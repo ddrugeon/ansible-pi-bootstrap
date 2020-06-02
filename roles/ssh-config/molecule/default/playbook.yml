@@ -1,0 +1,9 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: ssh-config
+      vars:
+        ssh_config_allow_users:
+          - "admin"
+          - "pi"

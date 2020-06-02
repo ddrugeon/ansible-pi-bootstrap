@@ -1,0 +1,10 @@
+---
+# defaults file for ssh-config
+ssh_config_port: 22
+ssh_config_login_grace_time: "2m"
+ssh_config_max_auth_tries: 6
+ssh_config_client_alive_interval: 900
+ssh_config_client_alive_count_max: 0
+# ssh_config_allow_users:
+#   - "admin"
+ssh_config_deny_users: "pi"
