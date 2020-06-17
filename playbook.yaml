@@ -1,0 +1,26 @@
+---
+
+  - hosts: pi
+    gather_facts: True
+    become: yes
+    become_user: root
+    roles:
+    - role: hostname
+      vars:
+        hostname_value: "raspberry-bureau"
+    - role: pi-secure-user
+      vars:
+        pi_secure_user_custom_pi_password: "{{ vaulted_pi_secure_user_custom_pi_password }}"
+        pi_secure_user_alternate_users:
+          - username: "{{ vaulted_pi_secure_user_alternate_username }}"
+            fullname: "David Drugeon-Hamon"
+            shell: "/bin/bash"
+            password: "{{ vaulted_pi_secure_user_alternate_user_password }}"
+            public_key: "{{ vaulted_pi_secure_user_alternate_user_public_key }}"
+    - role: unattended-upgrades
+    # - role: ssh-config
+    #   vars:
+    #     ssh_config_allow_users:
+    #       -  "{{ vaulted_pi_secure_user_alternate_username }}"
+    vars_files:
+    - vars/vaulted_secrets.yml

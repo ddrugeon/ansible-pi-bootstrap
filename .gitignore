@@ -133,3 +133,5 @@ dmypy.json
 #
 .DS_Store
 fake_user_ssh_rsa*
+hosts
+.vault_pwd
