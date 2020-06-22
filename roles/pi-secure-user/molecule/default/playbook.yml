@@ -1,0 +1,16 @@
+---
+- name: Converge
+  hosts: debian-buster-container
+  roles:
+    - role: pi-secure-user
+      vars:
+        pi_secure_user_custom_pi_password: "test"
+        pi_secure_user_alternate_users:
+          - username: "apple"
+            fullname: "Admin user apple"
+            shell: "/bin/sh"
+            password: "password"
+            public_key: "{{ playbook_dir }}/fake_user_ssh_rsa.pub"
+          - username: "orange"
+            password: "orange"
+            public_key: "{{ playbook_dir }}/fake_user_ssh_rsa.pub"

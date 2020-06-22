@@ -1,0 +1,6 @@
+---
+- name: "Install mandatory tools | base soft"
+  become: true
+  apt:
+    name: ['apt-transport-https', 'software-properties-common', 'unattended-upgrades', 'mailutils', 'bsd-mailx']
+    state: present

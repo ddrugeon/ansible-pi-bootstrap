@@ -1,0 +1,4 @@
+---
+# tasks file for unattended-upgrades
+- import_tasks: "install_mandatory_tools.yml"
+- import_tasks: "configure_unattended_updates.yml"
